@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.5"
+sudo: required
+dist: trusty
+before_install:
+  - sudo apt-get -y install python3-pip python-dev
+install:
+  - sudo pip3 install -r requirements.txt  
+script: 
+  - sudo python3 setup.py install
+  - sudo ./run_tests.sh
+deploy:
+  provider: heroku
+  buildpack: python
+  api_key:
+    secure: o7HEzggg6xF1wOw5q8zDxo8fxubE763otltL5uz4Y7ejbf/3HZj/uWvo7R2sLBGiU/ufs4GZ78ziYBV1pdIrPWUhAfnbxQAH7cKwOQZcMFbG9XfmJlYU1ujhzKkFHriKg325y9THKHcylj3G+PPm0q1/i64pZ118Mngl5FWc//6va/bqdbdjQU1YJNYSrd3JN3z2+F10a4+VFbBEXJbXFbV5LKJTP4QBhrzBLY0JGF1zoGRo2+zWxTez1m61pvl+D8WoBMcJ1Pgde+f1hLLMKwZSnOmsYRyMn+6z7kUcK/2lm008Fm0XbGVNHD/5MMXx8K81v3QDqU38RhxWrFgm0WAECcGEfTsHqZKWIQUE/t3VXy18u6jBDTGmtWtHMstkOTA760I3g6twXS14g7dJ9C2nmG3H/gdSjB4fr6ylZlcBlUVSn9c+BHeMpTAjCQ2vJ92fkENiF0qBJ8bjbi4TEaVSb0Fq5qI4WjNuI9nf+iPYTHhBZzfl2sgbheCddQTVt7gFq8PheDMPI5/BJSuhmiv79etQvYlxDJiAX0kAUKvhWkOudyMXoMeqrsA3BaanfYG8to9E/88juIH0/AXjlfdPnd4ZsI/Nxc2E+HcIc2q2i2//UH3BUIanuAALYl2ESbKa1RzhJIHRP5xq8TCVFlvQgB5Kz7Zl75642GvNqUg=
+  app:
+    master: bumerang-app-staging
+  on:
+    repo: CFedderly/bumerang-server
