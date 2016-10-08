@@ -1,5 +1,4 @@
-# bümerang API
-
+# bümerang API [![Build Status](https://travis-ci.com/CFedderly/bumerang-server.svg?token=4tb5XXwWhvkN4pTxLEdz&branch=master)](https://travis-ci.com/CFedderly/bumerang-server)
 ## Running the API locally
 * To create an instance of the server, run: `make server`
 * To run the unit tests for the server, run: `make test` 
