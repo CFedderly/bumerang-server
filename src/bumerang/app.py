@@ -1,5 +1,6 @@
-from bumerang.health import HealthCheckHandler
-from bumerang.profile import ProfileHandler
+from bumerang.healthhandler import HealthCheckHandler
+from bumerang.profilehandler import ProfileHandler
+from bumerang.bumerangrequesthandler import BumerangRequestHandler
 
 from tornado.ioloop import IOLoop
 from tornado.options import define
@@ -16,7 +17,9 @@ def main():
         [
             (r'/health', HealthCheckHandler),
             (r'/profile/?', ProfileHandler),
-            (r'/profile/([0-9]+)/?', ProfileHandler)
+            (r'/profile/([0-9]+)/?', ProfileHandler),
+            (r'/request/?', BumerangRequestHandler),
+            (r'/request/([0-9]+)/?', BumerangRequestHandler),
         ],
         debug=options.debug,
     )
