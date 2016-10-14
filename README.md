@@ -1,18 +1,21 @@
 # bümerang API [![Build Status](https://travis-ci.com/CFedderly/bumerang-server.svg?token=4tb5XXwWhvkN4pTxLEdz&branch=master)](https://travis-ci.com/CFedderly/bumerang-server)
-## Running the API locally
-* To create an instance of the server, run: `make server`
-* To run the unit tests for the server, run: `make test` 
-* Note: For either of these targets to work, the `image` is required.
-Also after killing the server, the container must be cleaned up in order
-to run another instance. This can be done with
-`docker rm bumerang_instance`. Similarly, after each test run,
-`docker rm bumerang_test_instance` is needed. This will be automated in the future.
-
-### Building the image
-Two images are currently available to build for project, `python_image` and
-`image`. The Python image is an image that contains the development tools
-and packages, associated with Python 3.5 on top of Centos7. The `image`
-involved the bümerang source installed in addition to the `python_image`.
-
-* To build `python_image`, run: `make python_image`
-* To build `image`, run: `make image`
+## Endpoints
+* `/request`
+  * To create a new request `POST` with the following parameters:
+   ```JSON
+   'title': 'Title of the request',
+   'description': 'Details of the request', # not required
+   'duration': x, # minutes
+   'distance': x. # meters
+   ```
+* `/request/{id}`
+  * To get a request send a `GET` with the `{id}` slug equal to the id of the desired request 
+* `/profile`
+  * To create a new request `POST` with the following parameters:
+   ```JSON
+   'firstname': 'First name',
+   'lastname': 'Last name',
+   'description': 'The about section for the person'
+   ```
+* `/profile/{id}`
+  * To get a profile send a `GET` with the `{id}` slug equal to the id of the desired profile 
