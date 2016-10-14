@@ -13,18 +13,25 @@ define('debug', default=True, help='debug is on or not')
 define('port', default=8888, help='run on given port', type=int)
 
 
-def main():
-    parse_command_line()
-    app = Application(
-        [
+class BumerangApplication(Application):
+
+    def __init__(self):
+        handlers = [
             (r'/health', HealthCheckHandler),
             (r'/profile/?', ProfileHandler),
             (r'/profile/([0-9]+)/?', ProfileHandler),
             (r'/request/?', BumerangRequestHandler),
             (r'/request/([0-9]+)/?', BumerangRequestHandler),
-        ],
-        debug=options.debug,
-    )
+        ]
+        settings = dict(debug=options.debug)
+
+        self.db = dict()
+        Application.__init__(self, handlers, **settings)
+
+
+def main():
+    parse_command_line()
+    app = BumerangApplication()
     app.listen(options.port)
     IOLoop.current().start()
 

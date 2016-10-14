@@ -9,12 +9,11 @@ class BumerangRequestHandler(RequestHandler):
 
     def get(self, id=None):
         """Obtain a request by id."""
-        request = BumerangRequest(
-            'Macbook air charger', 'Please gimmi dat charge hype', 1, 3
-        )
-
-        if int(id) == request.id:
-            self.write(repr(request))
+        request = self.application.db.get(id, None)
+        if request:
+            node = request.to_node()
+            node['request']['id'] = id
+            self.write(json_encode(node))
         else:
             self.set_status(404)
             self.finish('A request with id {} was not found'.format(id))
@@ -22,11 +21,24 @@ class BumerangRequestHandler(RequestHandler):
     def post(self):
         """Handle creating new requests and updating requests."""
         request = self.create_bumerang_request()
-        self.write(repr(request))
+        id = self.get_argument('id')
+        self.application.db[id] = request
+        node = request.to_node()
+        node['request']['id'] = id
+        self.write(node)
 
     def delete(self):
         """Handle cancelling a request."""
-        self.write('Delete in requests')
+        id = self.get_argument('id')
+        request = self.application.db[id]
+        if request:
+            del self.application.db[id]
+            node = request.to_node()
+            node['request']['id'] = id
+            self.write(node)
+        else:
+            self.set_status(404)
+            self.write('Request with id {} not found'.format(id))
 
     def create_bumerang_request(self):
         """Create the bumerang requests from the request parameters.

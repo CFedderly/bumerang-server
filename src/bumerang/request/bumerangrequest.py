@@ -20,3 +20,16 @@ class BumerangRequest:
 
     def remove_tag(self, tag):
         self.tags.remove(tag)
+
+    def to_node(self):
+        """To serialize the object for a response"""
+        return {
+            'request': {
+                'id': self.id,
+                'title': self.title,
+                'description': self.description,
+                'distance': self.distance,
+                'duration': self.duration,
+                'tags': list(self.tags)
+            }
+        }
