@@ -1,3 +1,4 @@
+-e .
 tornado==4.4.2
 pytest-runner==2.9
 pytest==3.0.3

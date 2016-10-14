@@ -4,6 +4,7 @@ from bumerang.profile import ProfileHandler
 from tornado.ioloop import IOLoop
 from tornado.options import define
 from tornado.options import options
+from tornado.options import parse_command_line
 from tornado.web import Application
 
 
@@ -12,6 +13,7 @@ define('port', default=8888, help='run on given port', type=int)
 
 
 def main():
+    parse_command_line()
     app = Application(
         [
             (r'/health', HealthCheckHandler),
