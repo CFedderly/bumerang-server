@@ -1,6 +1,8 @@
 -e .
+mock==2.0.0
 tornado==4.4.2
+psycopg2==2.6.1
 pytest-runner==2.9
 pytest==3.0.3
 setuptools==28.3
-mock==2.0.0
+urllib3==1.13.1
