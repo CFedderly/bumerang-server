@@ -7,6 +7,7 @@ def host():
     """The host that the tests will run against"""
     return 'http://localhost:8888/'
 
+
 def test_health(host):
     """Test the health of our API"""
     slug = 'health'

@@ -1,15 +1,23 @@
-class BumerangRequest:
+class BorrowRequest:
 
-    def __init__(self, title, description, distance, duration):
-        self.id = 1
+    def __init__(self, id, title, description, distance, duration):
+        self.id = id
         self.title = title
         self.description = description
         self.distance = distance
         self.duration = duration
         self.tags = set()
 
+    def __eq__(self, other):
+        return self.id == other.id and \
+            self.title == other.title and \
+            self.description == other.description and \
+            self.distance == other.distance and \
+            self.duration == other.duration and \
+            self.tags == other.tags
+
     def __repr__(self):
-        return 'BumerangRequest("{}", "{}", {}, {})'.format(
+        return 'BorrowRequest("{}", "{}", {}, {})'.format(
             self.title, self.description,
             self.distance, self.duration
         )
