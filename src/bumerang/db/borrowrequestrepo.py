@@ -55,7 +55,7 @@ class BorrowRequestRepo:
             WHERE b0_.user_id = %(user_id)s
         """.format(table=self._table), {'user_id': user_id}
         )
-        
+
         if records:
             hydrators = [Hydrator(x) for x in records]
             return [x.to_borrow_request() for x in hydrators]
@@ -101,8 +101,8 @@ class BorrowRequestRepo:
         record = query.insert("""
             INSERT INTO {table} (TITLE, USER_ID, DESCRIPTION, DISTANCE, DURATION, REQUEST_TYPE)
             VALUES (%(title)s, %(user_id)s, %(description)s, %(distance)s, %(duration)s, %(request_type)s)
-            RETURNING ID
+            RETURNING ID, TITLE
         """.format(table=self._table), borrow_node
         )
 
-        return record[0]
+        return record

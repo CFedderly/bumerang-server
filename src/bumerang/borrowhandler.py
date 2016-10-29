@@ -1,5 +1,6 @@
 from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
+from bumerang.notification.notification import Notification
 
 
 class BorrowHandler(BumerangRequestHandler):
@@ -29,7 +30,9 @@ class BorrowHandler(BumerangRequestHandler):
         """Handle creating new requests and updating requests."""
         try:
             request = self._create_borrow_node()
-            br_id = self.borrow_repo.insert_one(request)
+            br_id, title = self.borrow_repo.insert_one(request)
+            notification = Notification(title, '/topics/all')
+            self.noti_service.send_notification(notification)
             self.write({'id': br_id})
         except ValueError as e:
             self.set_status(400)
@@ -47,13 +50,13 @@ class BorrowHandler(BumerangRequestHandler):
 
         :title type: str
         :title: The title of the request to be made
-        
+
         :user_id type: int
         :user_id: The id of the user creating the request
 
         :description type: str
         :description: Additional details about the request
-        
+
         :distance type: int
         :distance: The amount of meters that the request should use for match
             making
@@ -67,7 +70,7 @@ class BorrowHandler(BumerangRequestHandler):
         :return: A dict with the parameters used to store the borrow request
             into the database
         """
-        
+
         request_type = int(self.request.arguments['request_type'])
         if request_type not in [BorrowHandler.Borrow, BorrowHandler.Lend]:
             raise ValueError('Invalid request type')

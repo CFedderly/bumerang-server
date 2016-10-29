@@ -2,6 +2,7 @@ from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
 from json import dumps
 
+
 class BorrowsByRecentHandler(BumerangRequestHandler):
     """ This class handles fetching multiple bumerang requests depending
         on which are most recently created.

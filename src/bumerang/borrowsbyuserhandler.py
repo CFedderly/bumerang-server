@@ -1,6 +1,7 @@
 from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
-from json import dumps 
+from json import dumps
+
 
 class BorrowsByUserHandler(BumerangRequestHandler):
     """ This class handles fetching multiple bumerang requests based on the user
@@ -20,7 +21,11 @@ class BorrowsByUserHandler(BumerangRequestHandler):
             else:
                 self.set_status(404)
                 self.finish(
-                    {'error': 'A request from user with id {} was not found'.format(user_id)}
+                    {
+                        'error': (
+                            'A request from user with id {} was not found'
+                        ).format(user_id)
+                    }
                 )
         except ValueError as e:
             self.set_status(400)

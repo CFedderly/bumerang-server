@@ -21,6 +21,10 @@ class BumerangRequestHandler(RequestHandler):
     def profile_repo(self):
         return self.application.profile_repo
 
+    @property
+    def noti_service(self):
+        return self.application.notification_service
+
     def get_arg(self, name, required=False):
         """Get a given argument from a request"""
         if not required:

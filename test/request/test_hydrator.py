@@ -9,7 +9,10 @@ import pytest as _pytest
 @_pytest.fixture
 def hydrator():
     """Create our mock borrow request"""
-    record = (_s.id, _s.title, _s.description, _s.distance, _s.duration,)
+    record = (
+        _s.id, _s.user_id, _s.title, _s.description,
+        _s.distance, _s.duration, _s.type,
+    )
     return Hydrator(record)
 
 
@@ -17,8 +20,8 @@ def test_to_borrow_request(hydrator):
     """Check that the hyrator creates a BorrowRequest from the db record"""
     assert hydrator.to_borrow_request() == \
         BorrowRequest(
-            _s.id, _s.title, _s.description,
-            _s.distance, _s.duration
+            _s.id, _s.user_id, _s.title, _s.description,
+            _s.distance, _s.duration, _s.type,
         ), 'A borrow request was not correctly created'
 
 
