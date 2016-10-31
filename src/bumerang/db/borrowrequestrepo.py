@@ -1,4 +1,5 @@
 from bumerang.db.databasequery import DatabaseQuery
+from bumerang.error import InvalidIDConstraintError
 from bumerang.request.hydrator import Hydrator
 
 
@@ -15,7 +16,10 @@ class BorrowRequestRepo:
         :id: The id which identifies the request
 
         :rtype: BorrowRequest
-        :return: The request specified by the id, or None if none found"""
+        :return: The request specified by the id, or None if none found
+
+        Throws InvalidIDConstraintError
+        """
         query = DatabaseQuery(self._db)
         records = query.select("""
             SELECT b0_.id, b0_.title, b0_.description, b0_.distance,
@@ -23,13 +27,15 @@ class BorrowRequestRepo:
             WHERE b0_.id = %(id)s
         """.format(table=self._table), {'id': id}
         )
-        assert len(records) == 1, (
-            'ids must be unique, more then one record'
-            'with with an id of {id}'
-            ).format(id=id)
 
-        hydrator = Hydrator(records[0])
-        return hydrator.to_borrow_request()
+        if len(records) > 1:
+            raise InvalidIDConstraintError(id)
+
+        if records:
+            hydrator = Hydrator(records[0])
+            return hydrator.to_borrow_request()
+        else:
+            return None
 
     def insert_one(self, borrow_node):
         """Creates a new borrow_request
