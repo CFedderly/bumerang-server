@@ -58,8 +58,8 @@ class BorrowHandler(BumerangRequestHandler):
             into the database
         """
         return {
-            'title': self.get_argument('title'),
-            'description': self.get_argument('description', ''),
-            'distance': self.get_argument('distance'),
-            'duration': self.get_argument('duration')
+            'title': self.request.arguments['title'],
+            'description': self.request.arguments.get('description'),
+            'distance': self.request.arguments['distance'],
+            'duration': self.request.arguments['duration']
         }
