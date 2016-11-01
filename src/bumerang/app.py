@@ -3,9 +3,11 @@ from bumerang.borrowsbyrecenthandler import BorrowsByRecentHandler
 from bumerang.borrowsbyuserhandler import BorrowsByUserHandler
 from bumerang.db.borrowrequestrepo import BorrowRequestRepo
 from bumerang.db.databasecreator import DatabaseCreator
+from bumerang.db.offerrepo import OfferRepo
 from bumerang.db.profilerepo import ProfileRepo
 from bumerang.healthhandler import HealthCheckHandler
 from bumerang.notification.notificationservice import NotificationService
+from bumerang.offerhandler import OfferHandler
 from bumerang.profilehandler import ProfileHandler
 from bumerang.profilebyfacebookhandler import ProfileByFacebookHandler
 
@@ -35,6 +37,8 @@ class BumerangApplication(Application):
         """Set all endpoints and connect to the database."""
         handlers = [
             (r'/health/?', HealthCheckHandler),
+            (r'/offer/?', OfferHandler),
+            (r'/offer/([0-9]+)/?', OfferHandler),
             (r'/profile/?', ProfileHandler),
             (r'/profile/([0-9]+)/?', ProfileHandler),
             (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
@@ -76,6 +80,7 @@ class BumerangApplication(Application):
         creator = DatabaseCreator(self._db)
         creator()
         self.borrow_repo = BorrowRequestRepo(db, 'br_request')
+        self.offer_repo = OfferRepo(db, 'br_offer')
         self.profile_repo = ProfileRepo(db, 'br_profile')
 
     def register_services(self):
