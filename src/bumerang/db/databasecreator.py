@@ -44,10 +44,13 @@ class DatabaseCreator:
         query.create_table("""
             CREATE TABLE IF NOT EXISTS br_request(
                 ID SERIAL PRIMARY KEY,
+                USER_ID INT REFERENCES br_profile(id) NOT NULL,
                 TITLE VARCHAR (20) NOT NULL,
                 DESCRIPTION VARCHAR (200),
-                DISTANCE INT,
-                DURATION INT
+                DISTANCE INT NOT NULL,
+                DURATION INT NOT NULL,
+                REQUEST_TYPE SMALLINT NOT NULL,
+                TIME_CREATED TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
             )
         """)
 
