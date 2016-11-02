@@ -4,6 +4,8 @@ from bumerang.db.databasecreator import DatabaseCreator
 from bumerang.db.profilerepo import ProfileRepo
 from bumerang.healthhandler import HealthCheckHandler
 from bumerang.profilehandler import ProfileHandler
+from bumerang.borrowsbyrecenthandler import BorrowsByRecentHandler
+from bumerang.borrowsbyuserhandler import BorrowsByUserHandler
 
 from os import environ
 
@@ -35,6 +37,9 @@ class BumerangApplication(Application):
             (r'/profile/([0-9]+)/?', ProfileHandler),
             (r'/request/?', BorrowHandler),
             (r'/request/([0-9]+)/?', BorrowHandler),
+            (r'/requests/recent/?', BorrowsByRecentHandler),
+            (r'/requests/recent/([0-9]+)/?', BorrowsByRecentHandler),
+            (r'/requests/user/([0-9]+)/?', BorrowsByUserHandler)
         ]
         settings = dict(debug=options.debug)
         self._db = self.connect_to_db() if not options.test else None
