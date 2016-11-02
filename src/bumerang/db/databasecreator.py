@@ -23,7 +23,17 @@ class DatabaseCreator:
 
     def _create_profile_table(self):
         """Create the table for the user profiles object"""
-        pass
+        query = DatabaseQuery(self._db)
+        query.create_table("""
+            CREATE TABLE IF NOT EXISTS br_profile(
+                ID SERIAL PRIMARY KEY,
+                FACEBOOK_ID BIGINT UNIQUE NOT NULL,
+                DEVICE_ID BIGINT UNIQUE,
+                FIRST_NAME VARCHAR (30) NOT NULL,
+                LAST_NAME VARCHAR (30) NOT NULL,
+                DESCRIPTION TEXT
+            )
+        """)
 
     def _create_requests_table(self):
         """Create the table for the requests object
@@ -32,7 +42,7 @@ class DatabaseCreator:
         """
         query = DatabaseQuery(self._db)
         query.create_table("""
-            CREATE TABLE IF NOT EXISTS br_requests(
+            CREATE TABLE IF NOT EXISTS br_request(
                 ID SERIAL PRIMARY KEY,
                 TITLE VARCHAR (20) NOT NULL,
                 DESCRIPTION VARCHAR (200),
