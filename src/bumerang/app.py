@@ -1,6 +1,7 @@
 from bumerang.borrowhandler import BorrowHandler
 from bumerang.db.borrowrequestrepo import BorrowRequestRepo
 from bumerang.db.databasecreator import DatabaseCreator
+from bumerang.db.profilerepo import ProfileRepo
 from bumerang.healthhandler import HealthCheckHandler
 from bumerang.profilehandler import ProfileHandler
 
@@ -38,8 +39,6 @@ class BumerangApplication(Application):
         settings = dict(debug=options.debug)
         self._db = self.connect_to_db() if not options.test else None
         if not options.test:
-            creator = DatabaseCreator(self._db)
-            creator()
             self.set_repos(self._db)
 
         Application.__init__(self, handlers, **settings)
@@ -65,7 +64,10 @@ class BumerangApplication(Application):
            obtain and store information instead of using the database
            connection directly.
         """
-        self.borrow_repo = BorrowRequestRepo(db, 'br_requests')
+        creator = DatabaseCreator(self._db)
+        creator()
+        self.borrow_repo = BorrowRequestRepo(db, 'br_request')
+        self.profile_repo = ProfileRepo(db, 'br_profile')
 
 
 def main():
