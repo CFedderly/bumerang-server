@@ -15,9 +15,10 @@ class ProfileRepo:
             TODO create a baseclass for this logic and hydrator
         """
         query = DatabaseQuery(self._db)
-        query.select("""
-            SELECT ID, FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME
-            FROM {table} WHERE ID = %(id)s
+        records = query.select("""
+            SELECT ID, FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME,
+            DESCRIPTION FROM {table}
+            WHERE ID = %(id)s
         """.format(table=self._table), {'id': id}
         )
 
@@ -29,3 +30,20 @@ class ProfileRepo:
             return hydrator.to_request()
         else:
             return None
+
+    def insert_one(self, profile_node):
+        """Create a profile
+
+        Throws InvalidQueryError
+        """
+        query = DatabaseQuery(self._db)
+        record = query.insert("""
+            INSERT INTO {table}
+            (FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME, DESCRIPTION)
+            VALUES (%(facebook_id)s, %(device_id)s, %(first_name)s,
+                %(last_name)s, %(description)s)
+            RETURNING ID
+        """.format(table=self._table), profile_node
+        )
+
+        return record[0]

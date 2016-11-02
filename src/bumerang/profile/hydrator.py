@@ -1,6 +1,5 @@
 from bumerang.error import InvalidRecordError
 from bumerang.profile.profile import Profile
-from bumerang.request.borrowrequest import BorrowRequest
 
 
 class Hydrator:
@@ -14,11 +13,12 @@ class Hydrator:
         Throws InvalidRecordError
         """
         try:
-            id, facebook_id, device_id, first_name, \
-                last_namem, description = self._record
+            (id, facebook_id, device_id, first_name,
+                last_name, description) = self._record
             return Profile(
                 id, facebook_id, device_id,
                 first_name, last_name, description
             )
+
         except ValueError as e:
             raise InvalidRecordError(str(e))
