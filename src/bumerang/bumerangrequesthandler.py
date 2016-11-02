@@ -1,6 +1,7 @@
 from tornado.web import RequestHandler
 from tornado.escape import json_decode
 
+
 class BumerangRequestHandler(RequestHandler):
 
     def prepare(self):
@@ -19,3 +20,10 @@ class BumerangRequestHandler(RequestHandler):
     @property
     def profile_repo(self):
         return self.application.profile_repo
+
+    def get_arg(self, name, required=False):
+        """Get a given argument from a request"""
+        if not required:
+            return self.request.arguments.get(name, None)
+        else:
+            return self.request.arguments[name]

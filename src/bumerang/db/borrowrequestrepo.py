@@ -48,9 +48,9 @@ class BorrowRequestRepo:
         """
         query = DatabaseQuery(self._db)
         record = query.insert("""
-            INSERT INTO {table} (title, description, distance, duration)
+            INSERT INTO {table} (TITLE, DESCRIPTION, DISTANCE, DURATION)
             VALUES (%(title)s, %(description)s, %(distance)s, %(duration)s)
-            RETURNING id
+            RETURNING ID
         """.format(table=self._table), borrow_node
         )
 
