@@ -11,7 +11,7 @@ class BorrowsByRecentHandler(BumerangRequestHandler):
         """Obtain a list of requests."""
 
         try:
-            requests = self.borrow_repo.find_requests_by_recent(num)
+            requests = self.borrow_repo.find_requests_by_recent(num_requests)
             if requests:
                 nodes = [req.to_node() for req in requests]
                 json_string = dumps({'results': nodes})
