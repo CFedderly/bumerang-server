@@ -7,6 +7,7 @@ from bumerang.db.profilerepo import ProfileRepo
 from bumerang.healthhandler import HealthCheckHandler
 from bumerang.notification.notificationservice import NotificationService
 from bumerang.profilehandler import ProfileHandler
+from bumerang.profilebyfacebookhandler import ProfileByFacebookHandler
 
 from os import environ
 
@@ -36,6 +37,7 @@ class BumerangApplication(Application):
             (r'/health/?', HealthCheckHandler),
             (r'/profile/?', ProfileHandler),
             (r'/profile/([0-9]+)/?', ProfileHandler),
+            (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
             (r'/request/?', BorrowHandler),
             (r'/request/([0-9]+)/?', BorrowHandler),
             (r'/requests/recent/?', BorrowsByRecentHandler),

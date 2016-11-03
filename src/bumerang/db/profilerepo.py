@@ -34,6 +34,26 @@ class ProfileRepo:
         else:
             return None
 
+    def find_one_by_facebook_id(self, facebook_id):
+        """ Find a profile by facebook id
+        """
+        query = DatabaseQuery(self._db)
+        records = query.select("""
+            SELECT ID, FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME,
+            DESCRIPTION FROM {table}
+            WHERE FACEBOOK_ID = %(facebook_id)s
+        """.format(table=self._table), {'facebook_id': facebook_id}
+        )
+
+        if len(records) > 1:
+            raise InvalidIDConstraintError(facebook_id)
+
+        if records:
+            hydrator = Hydrator(records[0])
+            return hydrator.to_request()
+        else:
+            return None   
+
     def insert_one(self, profile_node):
         """Create a profile
 
