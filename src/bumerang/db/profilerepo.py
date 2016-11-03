@@ -9,6 +9,9 @@ class ProfileRepo:
         self._db = db
         self._table = table
 
+    def edit_one(self, id, profile_node):
+        pass
+
     def find_one_by_id(self, id):
         """Find a profile by its id
 

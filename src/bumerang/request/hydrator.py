@@ -13,7 +13,14 @@ class Hydrator:
         Throws InvalidRecordError
         """
         try:
-            id, user_id, title, description, distance, duration, request_type = self._record
-            return BorrowRequest(id, user_id, title, description, distance, duration, request_type)
+            (
+                id, user_id, title, description,
+                distance, duration, request_type
+            ) = self._record
+            return BorrowRequest(
+                id, user_id, title,
+                description, distance,
+                duration, request_type
+            )
         except ValueError as e:
             raise InvalidRecordError(str(e))

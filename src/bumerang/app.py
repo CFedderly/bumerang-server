@@ -1,11 +1,12 @@
 from bumerang.borrowhandler import BorrowHandler
+from bumerang.borrowsbyrecenthandler import BorrowsByRecentHandler
+from bumerang.borrowsbyuserhandler import BorrowsByUserHandler
 from bumerang.db.borrowrequestrepo import BorrowRequestRepo
 from bumerang.db.databasecreator import DatabaseCreator
 from bumerang.db.profilerepo import ProfileRepo
 from bumerang.healthhandler import HealthCheckHandler
+from bumerang.notification.notificationservice import NotificationService
 from bumerang.profilehandler import ProfileHandler
-from bumerang.borrowsbyrecenthandler import BorrowsByRecentHandler
-from bumerang.borrowsbyuserhandler import BorrowsByUserHandler
 
 from os import environ
 
@@ -46,6 +47,7 @@ class BumerangApplication(Application):
         if not options.test:
             self.set_repos(self._db)
 
+        self.register_services()
         Application.__init__(self, handlers, **settings)
 
     def connect_to_db(self):
@@ -73,6 +75,10 @@ class BumerangApplication(Application):
         creator()
         self.borrow_repo = BorrowRequestRepo(db, 'br_request')
         self.profile_repo = ProfileRepo(db, 'br_profile')
+
+    def register_services(self):
+        """Register our serices for the application"""
+        self.notification_service = NotificationService()
 
 
 def main():

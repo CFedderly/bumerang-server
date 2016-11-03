@@ -8,10 +8,12 @@ def borrow_request():
     """The test request"""
     return BorrowRequest(
         id=_s.id,
+        user_id=_s.user_id,
         title=_s.title,
         description=_s.description,
         distance=_s.distance,
-        duration=_s.duration
+        duration=_s.duration,
+        request_type=_s.request_type
     )
 
 
@@ -20,10 +22,12 @@ def test___eq__(borrow_request):
     assert borrow_request == \
         BorrowRequest(
             _s.id,
+            _s.user_id,
             _s.title,
             _s.description,
             _s.distance,
-            _s.duration
+            _s.duration,
+            _s.request_type
         )
 
 
@@ -32,10 +36,12 @@ def test_not__eq__(borrow_request):
     assert borrow_request != \
         BorrowRequest(
             _s.new_id,
+            _s.user_id,
             _s.new_title,
             _s.new_description,
             _s.new_distance,
-            _s.new_duration
+            _s.new_duration,
+            _s.request_type
         )
 
 
@@ -52,10 +58,12 @@ def test__to_node_(borrow_request):
     assert borrow_request.to_node() == {
         'request': {
             'id': _s.id,
+            'user_id': _s.user_id,
             'title': _s.title,
             'description': _s.description,
             'distance': _s.distance,
             'duration': _s.duration,
+            'request_type': _s.request_type,
             'tags': []
         }
     }, 'to_node is not producing the correct output'
