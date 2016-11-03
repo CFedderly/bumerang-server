@@ -18,6 +18,10 @@ class BumerangRequestHandler(RequestHandler):
         return self.application.borrow_repo
 
     @property
+    def offer_repo(self):
+        return self.application.offer_repo
+
+    @property
     def profile_repo(self):
         return self.application.profile_repo
 

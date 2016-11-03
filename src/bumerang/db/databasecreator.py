@@ -19,6 +19,7 @@ class DatabaseCreator:
         """Create all database schemas."""
         self._create_profile_table()
         self._create_requests_table()
+        self._create_offers_table()
         self._create_tags_table()
 
     def _create_profile_table(self):
@@ -38,21 +39,29 @@ class DatabaseCreator:
         """)
 
     def _create_requests_table(self):
-        """Create the table for the requests object
-
-            TODO: Add error handling
-        """
+        """Create the table for the requests object"""
         query = DatabaseQuery(self._db)
         query.create_table("""
             CREATE TABLE IF NOT EXISTS br_request(
                 ID SERIAL PRIMARY KEY,
                 USER_ID INT REFERENCES br_profile(id) NOT NULL,
                 TITLE VARCHAR (20) NOT NULL,
-                DESCRIPTION VARCHAR (200),
+                DESCRIPTION TEXT,
                 DISTANCE INT NOT NULL,
                 DURATION INT NOT NULL,
                 REQUEST_TYPE SMALLINT NOT NULL,
                 TIME_CREATED TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+            )
+        """)
+
+    def _create_offers_table(self):
+        """Create the table for holding the offers to fullfill a request"""
+        query = DatabaseQuery(self._db)
+        query.create_table("""
+            CREATE TABLE IF NOT EXISTS br_offer(
+                ID SERIAL PRIMARY KEY,
+                PROFILE_ID INT REFERENCES br_profile NOT NULL,
+                BORROW_ID INT REFERENCES br_request NOT NULL
             )
         """)
 
