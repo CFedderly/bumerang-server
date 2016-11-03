@@ -28,10 +28,12 @@ class DatabaseCreator:
             CREATE TABLE IF NOT EXISTS br_profile(
                 ID SERIAL PRIMARY KEY,
                 FACEBOOK_ID BIGINT UNIQUE NOT NULL,
-                DEVICE_ID BIGINT UNIQUE,
+                DEVICE_ID VARCHAR (255) UNIQUE,
                 FIRST_NAME VARCHAR (30) NOT NULL,
                 LAST_NAME VARCHAR (30) NOT NULL,
-                DESCRIPTION TEXT
+                DESCRIPTION TEXT,
+                PHONE_NUMBER VARCHAR (12) NOT NULL,
+                KARMA INT DEFAULT 0
             )
         """)
 

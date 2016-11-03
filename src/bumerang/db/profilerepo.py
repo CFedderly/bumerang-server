@@ -20,7 +20,7 @@ class ProfileRepo:
         query = DatabaseQuery(self._db)
         records = query.select("""
             SELECT ID, FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME,
-            DESCRIPTION FROM {table}
+            DESCRIPTION, PHONE_NUMBER, KARMA FROM {table}
             WHERE ID = %(id)s
         """.format(table=self._table), {'id': id}
         )
@@ -62,9 +62,10 @@ class ProfileRepo:
         query = DatabaseQuery(self._db)
         record = query.insert("""
             INSERT INTO {table}
-            (FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME, DESCRIPTION)
+            (FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME, DESCRIPTION,
+                PHONE_NUMBER)
             VALUES (%(facebook_id)s, %(device_id)s, %(first_name)s,
-                %(last_name)s, %(description)s)
+                %(last_name)s, %(description)s, %(phone_number)s)
             RETURNING ID
         """.format(table=self._table), profile_node
         )

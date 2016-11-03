@@ -13,11 +13,14 @@ class Hydrator:
         Throws InvalidRecordError
         """
         try:
-            (id, facebook_id, device_id, first_name,
-                last_name, description) = self._record
+            (
+                id, facebook_id, device_id, first_name,
+                last_name, description, phone_number, karma,
+            ) = self._record
             return Profile(
                 id, facebook_id, device_id,
-                first_name, last_name, description
+                first_name, last_name, description,
+                phone_number, karma
             )
 
         except ValueError as e:

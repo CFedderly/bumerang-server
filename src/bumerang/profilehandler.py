@@ -56,6 +56,9 @@ class ProfileHandler(BumerangRequestHandler):
         :description type: str
         :description: Some text about the user
 
+        :phone_number type: str
+        :phone_number: The user's phone number
+
         :rtype: dict
         :return: A request used to create the profile
         """
@@ -64,5 +67,6 @@ class ProfileHandler(BumerangRequestHandler):
             'device_id': self.get_arg('device_id', required=False),
             'first_name': self.get_arg('first_name', required=True),
             'last_name': self.get_arg('last_name', required=True),
-            'description': self.get_arg('description', required=False)
+            'description': self.get_arg('description', required=False),
+            'phone_number': self.get_arg('phone_number', required=True)
         }
