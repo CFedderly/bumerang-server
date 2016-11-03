@@ -18,7 +18,7 @@ class Profile:
         return self.id == other.id
 
     def __repr__(self):
-        return 'Profile(%r, %r, %r, %r, %r, %r)' % (
+        return 'Profile(%r, %r, %r, %r, %r, %r, %r, %r)' % (
             self.id, self.facebook_id, self.device_id,
             self.first_name, self.last_name, self.description,
             self.phone_number, self.karma

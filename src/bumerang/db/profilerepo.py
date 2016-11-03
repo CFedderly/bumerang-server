@@ -40,7 +40,7 @@ class ProfileRepo:
         query = DatabaseQuery(self._db)
         records = query.select("""
             SELECT ID, FACEBOOK_ID, DEVICE_ID, FIRST_NAME, LAST_NAME,
-            DESCRIPTION FROM {table}
+            DESCRIPTION, PHONE_NUMBER, KARMA FROM {table}
             WHERE FACEBOOK_ID = %(facebook_id)s
         """.format(table=self._table), {'facebook_id': facebook_id}
         )
