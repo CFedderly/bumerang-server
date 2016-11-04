@@ -8,7 +8,7 @@ class OfferHandler(BumerangRequestHandler):
         try:
             offer = self.offer_repo.find_one_by_id(id)
             if offer:
-                node = offer.to_node()
+                node = offer.to_node(self.profile_repo, self.borrow_repo)
                 self.write(node)
             else:
                 self.set_status(404)
