@@ -52,7 +52,7 @@ class ProfileRepo:
             hydrator = Hydrator(records[0])
             return hydrator.to_request()
         else:
-            return None   
+            return None
 
     def insert_one(self, profile_node):
         """Create a profile

@@ -23,3 +23,7 @@ class Offer:
                 'borrow_id': self.borrow_id
             }
         }
+
+    def fetch_device_id(self, profile_repo):
+        profile = profile_repo.find_one_by_id(self.profile_id)
+        return profile.device_id

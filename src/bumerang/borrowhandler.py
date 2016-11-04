@@ -31,7 +31,7 @@ class BorrowHandler(BumerangRequestHandler):
         try:
             request = self._create_borrow_node()
             br_id, title = self.borrow_repo.insert_one(request)
-            notification = Notification(title, '/topics/all')
+            notification = Notification(title, '/topics/all', 0)
             self.noti_service.send_notification(notification)
             self.write({'id': br_id})
         except ValueError as e:
