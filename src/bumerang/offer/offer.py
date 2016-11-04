@@ -15,12 +15,14 @@ class Offer:
     def __eq__(self, other):
         return self.id == other.id
 
-    def to_node(self):
+    def to_node(self, profile_repo, borrow_repo):
+        profile = profile_repo.find_one_by_id(self.profile_id)
+        borrow = borrow_repo.find_one_by_id(self.borrow_id)
         return {
             'offer': {
                 'id': self.id,
-                'profile_id': self.profile_id,
-                'borrow_id': self.borrow_id
+                'profile': profile.to_node(),
+                'request': borrow.to_node()
             }
         }
 
