@@ -1,5 +1,6 @@
 from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
+from bumerang.notification.notification import Notification
 
 
 class OfferHandler(BumerangRequestHandler):
@@ -24,6 +25,11 @@ class OfferHandler(BumerangRequestHandler):
         offer = self._create_offer_node()
         try:
             offer_id = self.offer_repo.insert_one(offer)
+            #TODO clean up logic probs by join
+            offer = self.offer_repo.find_one_by_id(offer_id)
+            device_id = offer.fetch_device_id(self.profile_repo)
+            noti = Notification('You have an offer!', device_id, 1)
+            self.noti_service.send_notification(noti)
             self.write({'id': offer_id})
         except BumerangError as e:
             self.set_status(500)
