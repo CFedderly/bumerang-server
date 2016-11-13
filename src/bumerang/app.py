@@ -8,6 +8,7 @@ from bumerang.db.profilerepo import ProfileRepo
 from bumerang.healthhandler import HealthCheckHandler
 from bumerang.notification.notificationservice import NotificationService
 from bumerang.offerhandler import OfferHandler
+from bumerang.offerbyidhandler import OfferByIdHandler
 from bumerang.profilehandler import ProfileHandler
 from bumerang.profilebyfacebookhandler import ProfileByFacebookHandler
 
@@ -39,6 +40,7 @@ class BumerangApplication(Application):
             (r'/health/?', HealthCheckHandler),
             (r'/offer/?', OfferHandler),
             (r'/offer/([0-9]+)/?', OfferHandler),
+            (r'/offer/ids/([0-9]+(,[0-9]+)*)?/?', OfferByIdHandler),
             (r'/profile/?', ProfileHandler),
             (r'/profile/([0-9]+)/?', ProfileHandler),
             (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
