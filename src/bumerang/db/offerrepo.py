@@ -27,6 +27,29 @@ class OfferRepo:
         else:
             return None
 
+    def find_offers_by_borrow_id(self, borrow_id):
+        """ Finds the offers with the given borrow id
+
+        :borrow_id type: int
+        :borrow_id: The borrow id of the desired offers
+
+        :rtype: list of Offers
+        :return: A list of offers with the desired borrow id, or None if none found
+        """
+        query = DatabaseQuery(self._db)
+        records = query.select("""
+            SELECT o0_.id, o0_.profile_id, o0_.borrow_id
+            FROM {table} o0_
+            WHERE o0_.borrow_id = %(borrow_id)s
+        """.format(table=self._table), {'borrow_id': borrow_id}
+        )
+
+        if records:
+            hydrators = [Hydrator(x) for x in records]
+            return [x.to_request() for x in hydrators]
+        else:
+            return None
+
     def insert_one(self, node):
         """TODO add to base class"""
         query = DatabaseQuery(self._db)
