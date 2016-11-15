@@ -1,5 +1,5 @@
-from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
+from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.notification.notification import Notification
 
 

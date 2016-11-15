@@ -1,5 +1,5 @@
-from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
+from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.notification.notification import Notification
 from json import dumps
 
@@ -14,7 +14,7 @@ class OfferByIdHandler(BumerangRequestHandler):
                 offers = self.offer_repo.find_offers_by_borrow_id(borrow_id)
                 if offers:
                     all_offers.extend(offers)
-            
+
             if all_offers:
                 nodes = [offer.to_node(self.profile_repo, self.borrow_repo) for offer in all_offers]
                 json_string = dumps({'results': nodes})

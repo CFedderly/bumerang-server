@@ -35,3 +35,7 @@ class BumerangRequestHandler(RequestHandler):
             return self.request.arguments.get(name, None)
         else:
             return self.request.arguments[name]
+
+    def write_not_found(self, msg):
+        self.set_status(404)
+        self.write({'error': msg})

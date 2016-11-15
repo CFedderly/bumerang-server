@@ -17,16 +17,7 @@ class DatabaseQuery:
 
         Throws InvalidQueryError
         """
-        try:
-            cur = self._db.cursor()
-            self._mutator_query(query, parameters, cur)
-            cur.close()
-
-        except DatabaseError as e:
-            if self._db:
-                self._db.rollback()
-            cur.close()
-            raise InvalidQueryError(str(e))
+        self._mutator_query(query, parameters, return_value=False)
 
     def insert(self, query, parameters=None):
         """A query abstraction to insert records into tables
@@ -39,19 +30,18 @@ class DatabaseQuery:
 
         Throws InvalidQueryError
         """
-        try:
-            cur = self._db.cursor()
-            self._mutator_query(query, parameters, cur)
-            result = cur.fetchone()
-            cur.close()
-            return result
+        return self._mutator_query(query, parameters, return_value=True)
 
-        except DatabaseError as e:
-            if self._db:
-                self._db.rollback()
+    def delete(self, query, parameters=None):
+        """A query abstraction to delete records from a table
 
-            cur.close()
-            raise InvalidQueryError(str(e))
+        :query type: string
+        :query: The query to delete the records
+
+        :rtype: int
+        :return: The id of the deleted record
+        """
+        return self._mutator_query(query, parameters, return_value=True)
 
     def select(self, query, parameters=None):
         """Execute a query to fetch rows from a database.
@@ -75,12 +65,28 @@ class DatabaseQuery:
             cur.close()
             raise InvalidQueryError(str(e))
 
-    def _mutator_query(self, query, parameters, cur):
+    def _mutator_query(self, query, parameters, return_value=False):
         """A wrapper around exec_query, which commits a change to the
 
            database.
 
         Throws DatabaseError
         """
-        cur.execute(query, parameters)
-        self._db.commit()
+        try:
+            cur = self._db.cursor()
+            cur.execute(query, parameters)
+            self._db.commit()
+
+            if return_value:
+                result = cur.fetchone()
+                cur.close()
+                return result
+            else:
+                cur.close()
+
+        except DatabaseError as e:
+            if self._db:
+                self._db.rollback()
+
+            cur.close()
+            raise InvalidQueryError(str(e))

@@ -61,3 +61,15 @@ class OfferRepo:
         )
 
         return record[0]
+
+    def remove_one_by_id(self, id):
+        """Remove an offer"""
+        query = DatabaseQuery(self._db)
+        record = query.delete("""
+            DELETE FROM {table}
+            WHERE id = %(id)s
+            RETURNING id
+        """.format(table=self._table), {'id': id}
+        )
+
+        return record[0] if record else None

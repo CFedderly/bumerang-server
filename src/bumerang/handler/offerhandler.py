@@ -1,5 +1,5 @@
-from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
+from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.notification.notification import Notification
 
 
@@ -31,6 +31,20 @@ class OfferHandler(BumerangRequestHandler):
             noti = Notification('You have an offer!', device_id, 1)
             self.noti_service.send_notification(noti)
             self.write({'id': offer_id})
+        except BumerangError as e:
+            self.set_status(500)
+            self.finish({'error': str(e)})
+
+    def delete(self, offer_id):
+        """Delete an offer"""
+        try:
+            deleted_id = self.offer_repo.remove_one_by_id(offer_id)
+            if deleted_id:
+                self.write({'id': deleted_id})
+            else:
+                self.write_not_found(
+                    'Offer with id {id} was not found.'.format(id=deleted_id)
+                )
         except BumerangError as e:
             self.set_status(500)
             self.finish({'error': str(e)})
