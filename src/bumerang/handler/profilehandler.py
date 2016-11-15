@@ -12,10 +12,7 @@ class ProfileHandler(BumerangRequestHandler):
                 node = profile.to_node()
                 self.write(node)
             else:
-                self.set_status(404)
-                self.finish(
-                    {'error': 'A profile with id {} was not found'.format(id)}
-                )
+                self.write_not_found('A profile with id {} was not found'.format(id))
         except BumerangError as e:
             self.set_status(500)
             self.finish(
@@ -24,7 +21,6 @@ class ProfileHandler(BumerangRequestHandler):
 
     def post(self):
         """Create a profile"""
-        print('post')
         try:
             profile = self._create_profile_node()
             profile_id = self.profile_repo.insert_one(profile)
