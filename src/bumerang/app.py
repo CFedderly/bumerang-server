@@ -1,16 +1,16 @@
-from bumerang.borrowhandler import BorrowHandler
-from bumerang.borrowsbyrecenthandler import BorrowsByRecentHandler
-from bumerang.borrowsbyuserhandler import BorrowsByUserHandler
 from bumerang.db.borrowrequestrepo import BorrowRequestRepo
 from bumerang.db.databasecreator import DatabaseCreator
 from bumerang.db.offerrepo import OfferRepo
 from bumerang.db.profilerepo import ProfileRepo
-from bumerang.healthhandler import HealthCheckHandler
+from bumerang.handler.borrowsbyrecenthandler import BorrowsByRecentHandler
+from bumerang.handler.borrowsbyuserhandler import BorrowsByUserHandler
+from bumerang.handler.borrowhandler import BorrowHandler
+from bumerang.handler.healthhandler import HealthCheckHandler
+from bumerang.handler.offerbyidhandler import OfferByIdHandler
+from bumerang.handler.offerhandler import OfferHandler
+from bumerang.handler.profilebyfacebookhandler import ProfileByFacebookHandler
+from bumerang.handler.profilehandler import ProfileHandler
 from bumerang.notification.notificationservice import NotificationService
-from bumerang.offerhandler import OfferHandler
-from bumerang.offerbyidhandler import OfferByIdHandler
-from bumerang.profilehandler import ProfileHandler
-from bumerang.profilebyfacebookhandler import ProfileByFacebookHandler
 
 from os import environ
 
