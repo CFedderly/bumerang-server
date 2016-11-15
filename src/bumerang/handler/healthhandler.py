@@ -1,7 +1,6 @@
-from tornado.web import RequestHandler
+from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
 
-
-class HealthCheckHandler(RequestHandler):
+class HealthCheckHandler(BumerangRequestHandler):
 
     def get(self):
         """A basic health check to see whether the API can be reached or not.

@@ -1,5 +1,5 @@
-from bumerang.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.error import BumerangError
+from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
 
 class ProfileByFacebookHandler(BumerangRequestHandler):
     """ This class fetches a profile given a facebook id
