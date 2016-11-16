@@ -32,6 +32,18 @@ class DatabaseQuery:
         """
         return self._mutator_query(query, parameters, return_value=True)
 
+    def update(self, query, parameters=None):
+        """A query abstraction to update an existing record from a table 
+        
+        :query type: string
+        :query: The query used to update the record
+
+        :rtype: int
+        :return: The id of the updated record
+        """
+        return self._mutator_query(query, parameters, return_value=True)
+
+
     def delete(self, query, parameters=None):
         """A query abstraction to delete records from a table
 

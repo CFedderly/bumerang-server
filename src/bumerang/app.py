@@ -9,6 +9,7 @@ from bumerang.handler.healthhandler import HealthCheckHandler
 from bumerang.handler.offerbyidhandler import OfferByIdHandler
 from bumerang.handler.offerhandler import OfferHandler
 from bumerang.handler.profilebyfacebookhandler import ProfileByFacebookHandler
+from bumerang.handler.profileedithandler import ProfileEditHandler
 from bumerang.handler.profilehandler import ProfileHandler
 from bumerang.notification.notificationservice import NotificationService
 
@@ -43,6 +44,7 @@ class BumerangApplication(Application):
             (r'/offer/ids/([0-9]+(,[0-9]+)*)?/?', OfferByIdHandler),
             (r'/profile/?', ProfileHandler),
             (r'/profile/([0-9]+)/?', ProfileHandler),
+            (r'/profile/edit/([0-9]+)/?', ProfileEditHandler),
             (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
             (r'/request/?', BorrowHandler),
             (r'/request/([0-9]+)/?', BorrowHandler),

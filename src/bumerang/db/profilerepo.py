@@ -9,8 +9,19 @@ class ProfileRepo:
         self._db = db
         self._table = table
 
-    def edit_one(self, id, profile_node):
-        pass
+    def edit_one(self, profile_node):
+        """ Edit an existing profile """
+        query = DatabaseQuery(self._db)
+        record = query.update("""
+            UPDATE {table}
+            SET PHONE_NUMBER = %(phone_number)s, 
+                DESCRIPTION = %(description)s,
+                DEVICE_ID = %(device_id)s
+            WHERE ID = %(id)s
+            RETURNING ID
+        """.format(table=self._table), profile_node
+        )
+        return record[0]
 
     def find_one_by_id(self, id):
         """Find a profile by its id
