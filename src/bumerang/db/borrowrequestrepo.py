@@ -62,7 +62,6 @@ class BorrowRequestRepo:
         else:
             return None
 
-
     def find_requests_by_recent(self, num_requests):
         """ Finds the most recently created requests
 
@@ -87,7 +86,6 @@ class BorrowRequestRepo:
         else:
             return None
 
-
     def insert_one(self, borrow_node):
         """Creates a new borrow_request
 
@@ -99,10 +97,25 @@ class BorrowRequestRepo:
         """
         query = DatabaseQuery(self._db)
         record = query.insert("""
-            INSERT INTO {table} (TITLE, USER_ID, DESCRIPTION, DISTANCE, DURATION, REQUEST_TYPE)
-            VALUES (%(title)s, %(user_id)s, %(description)s, %(distance)s, %(duration)s, %(request_type)s)
+            INSERT INTO {table}
+            (TITLE, USER_ID, DESCRIPTION, DISTANCE, DURATION, REQUEST_TYPE)
+            VALUES (
+                %(title)s, %(user_id)s, %(description)s,
+                %(distance)s, %(duration)s, %(request_type)s
+            )
             RETURNING ID, TITLE
         """.format(table=self._table), borrow_node
         )
 
         return record
+
+    def remove_one_by_id(self, delete_id):
+        query = DatabaseQuery(self._db)
+        record = query.delete("""
+            DELETE FROM {table}
+            WHERE id = %(id)s
+            RETURNING ID
+        """.format(table=self._table), {'id': delete_id}
+        )
+
+        return record[0] if record else None
