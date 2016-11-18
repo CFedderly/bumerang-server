@@ -6,6 +6,7 @@ from bumerang.handler.borrowsbyrecenthandler import BorrowsByRecentHandler
 from bumerang.handler.borrowsbyuserhandler import BorrowsByUserHandler
 from bumerang.handler.borrowhandler import BorrowHandler
 from bumerang.handler.healthhandler import HealthCheckHandler
+from bumerang.handler.profilekarmahandler import ProfileKarmaHandler
 from bumerang.handler.offerbyidhandler import OfferByIdHandler
 from bumerang.handler.offerhandler import OfferHandler
 from bumerang.handler.profilebyfacebookhandler import ProfileByFacebookHandler
@@ -46,6 +47,7 @@ class BumerangApplication(Application):
             (r'/profile/([0-9]+)/?', ProfileHandler),
             (r'/profile/edit/([0-9]+)/?', ProfileEditHandler),
             (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
+            (r'/profile/karma/add/([0-9]+)/?', ProfileKarmaHandler),
             (r'/request/?', BorrowHandler),
             (r'/request/([0-9]+)/?', BorrowHandler),
             (r'/requests/recent/?', BorrowsByRecentHandler),
