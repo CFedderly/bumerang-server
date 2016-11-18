@@ -1,4 +1,5 @@
 from bumerang.error import BumerangError
+from bumerang.error import InvalidRequestTypeError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
 from bumerang.notification.notification import Notification
 
@@ -18,9 +19,8 @@ class BorrowHandler(BumerangRequestHandler):
                 node = request.to_node()
                 self.write(node)
             else:
-                self.set_status(404)
-                self.finish(
-                    {'error': 'A request with id {} was not found'.format(id)}
+                self.write_not_found(
+                    'A request with id {} was not found'
                 )
         except BumerangError as e:
             self.set_status(500)
@@ -34,16 +34,23 @@ class BorrowHandler(BumerangRequestHandler):
             notification = Notification(title, '/topics/all', 0)
             self.noti_service.send_notification(notification)
             self.write({'id': br_id})
-        except ValueError as e:
-            self.set_status(400)
-            self.finish({'error': str(e)})
         except BumerangError as e:
             self.set_status(500)
             self.finish({'error': str(e)})
 
-    def delete(self):
+    def delete(self, id):
         """Handle cancelling a request."""
-        self.write('delete not implemented')
+        try:
+            deleted_id = self.borrow_repo.remove_one_by_id(id)
+            if deleted_id:
+                self.write({'id': deleted_id})
+            else:
+                self.write_not_found(
+                    'A request with id {} was not found'.format(id)
+                )
+        except BumerangError as e:
+            self.set_status(500)
+            self.finish({'error': str(e)})
 
     def _create_borrow_node(self):
         """Create the borrow request from the request parameters.
@@ -73,7 +80,7 @@ class BorrowHandler(BumerangRequestHandler):
 
         request_type = int(self.request.arguments['request_type'])
         if request_type not in [BorrowHandler.Borrow, BorrowHandler.Lend]:
-            raise ValueError('Invalid request type')
+            raise InvalidRequestTypeError(request_type)
         return {
             'title': self.get_arg('title', required=True),
             'user_id': self.get_arg('user_id', required=True),
