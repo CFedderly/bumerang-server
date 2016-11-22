@@ -30,9 +30,7 @@ class BorrowHandler(BumerangRequestHandler):
         """Handle creating new requests and updating requests."""
         try:
             request = self._create_borrow_node()
-            br_id, title = self.borrow_repo.insert_one(request)
-            notification = Notification(title, '/topics/all', 0)
-            self.noti_service.send_notification(notification)
+            br_id, _ = self.borrow_repo.insert_one(request)
             self.write({'id': br_id})
         except BumerangError as e:
             self.set_status(500)

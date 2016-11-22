@@ -1,6 +1,7 @@
 class Offer:
 
     def __init__(self, id, profile_id, borrow_id):
+        #TODO change to profile and borrow
         self.id = id
         self.profile_id = profile_id
         self.borrow_id = borrow_id
@@ -26,6 +27,7 @@ class Offer:
             }
         }
 
-    def fetch_device_id(self, profile_repo):
-        profile = profile_repo.find_one_by_id(self.profile_id)
+    def fetch_device_id(self, profile_repo, borrow_repo):
+        request = borrow_repo.find_one_by_id(self.borrow_id)
+        profile = profile_repo.find_one_by_id(request.user_id)
         return profile.device_id

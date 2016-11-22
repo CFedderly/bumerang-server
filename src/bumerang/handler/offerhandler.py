@@ -27,7 +27,10 @@ class OfferHandler(BumerangRequestHandler):
             offer_id = self.offer_repo.insert_one(offer)
             #TODO clean up logic probs by join
             offer = self.offer_repo.find_one_by_id(offer_id)
-            device_id = offer.fetch_device_id(self.profile_repo)
+            device_id = offer.fetch_device_id(
+                self.profile_repo,
+                self.borrow_repo
+            )
             noti = Notification('You have an offer!', device_id, 1)
             self.noti_service.send_notification(noti)
             self.write({'id': offer_id})
