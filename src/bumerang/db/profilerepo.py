@@ -14,12 +14,23 @@ class ProfileRepo:
         query = DatabaseQuery(self._db)
         record = query.update("""
             UPDATE {table}
-            SET PHONE_NUMBER = %(phone_number)s, 
+            SET PHONE_NUMBER = %(phone_number)s,
                 DESCRIPTION = %(description)s,
                 DEVICE_ID = %(device_id)s
             WHERE ID = %(id)s
             RETURNING ID
         """.format(table=self._table), profile_node
+        )
+        return record[0]
+
+    def update_karma(self, update_node):
+        query = DatabaseQuery(self._db)
+        record = query.update("""
+            UPDATE {table}
+            SET KARMA = %(karma)s
+            WHERE ID = %(id)s
+            RETURNING ID
+        """.format(table=self._table), update_node
         )
         return record[0]
 

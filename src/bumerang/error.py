@@ -19,6 +19,21 @@ class InvalidIDConstraintError(BumerangError):
         )
 
 
+class InvalidOperationError(BumerangError):
+
+    def __init__(self, operation):
+        super().__init__()
+        self._op = operation
+
+    def __repr__(self):
+        return 'InvalidOperationError(%r)' % self._op
+
+    def __str__(self):
+        return (
+            'Invalid Operation Error: Operation {} not '
+            'supported'
+        ).format(self._op)
+
 class InvalidRecordError(BumerangError):
 
     def __init__(self, msg):
