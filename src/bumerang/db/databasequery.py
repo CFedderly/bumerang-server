@@ -9,11 +9,35 @@ class DatabaseQuery:
     def __init__(self, db):
         self._db = db
 
+    def create_function(self, query):
+        """A query abstraction to create functions for the db"""
+        self._mutator_query(query, False, return_value=False)
+
     def create_table(self, query, parameters=None):
-        """A query to abstraction to create tables in the db
+        """A query abstraction to create tables in the db
 
         :query type: string
         :query: The query to create the table
+
+        Throws InvalidQueryError
+        """
+        self._mutator_query(query, parameters, return_value=False)
+
+    def create_trigger(self, query, parameters=None):
+        """A query abstraction to create triggers in the db
+
+        :query type: string
+        :query: The query to create the trigger
+
+        Throws InvalidQueryError
+        """
+        self._mutator_query(query, parameters, return_value=False)
+
+    def drop_trigger(self, query, parameters=None):
+        """A query abstraction to drop triggers in the db
+
+        :query type: string
+        :query: The query to drop the trigger
 
         Throws InvalidQueryError
         """
@@ -33,8 +57,8 @@ class DatabaseQuery:
         return self._mutator_query(query, parameters, return_value=True)
 
     def update(self, query, parameters=None):
-        """A query abstraction to update an existing record from a table 
-        
+        """A query abstraction to update an existing record from a table
+
         :query type: string
         :query: The query used to update the record
 

@@ -27,12 +27,11 @@ class OfferHandler(BumerangRequestHandler):
             offer_id = self.offer_repo.insert_one(offer)
             #TODO clean up logic probs by join
             offer = self.offer_repo.find_one_by_id(offer_id)
-            device_id = offer.fetch_device_id(
+            profile = offer.fetch_profile(
                 self.profile_repo,
                 self.borrow_repo
             )
-            noti = Notification('You have an offer!', device_id, 1)
-            self.noti_service.send_notification(noti)
+            self._send_notification(profile)
             self.write({'id': offer_id})
         except BumerangError as e:
             self.set_status(500)
@@ -67,3 +66,11 @@ class OfferHandler(BumerangRequestHandler):
             'profile_id': self.get_arg('profile_id', required=True),
             'borrow_id': self.get_arg('borrow_id', required=True)
         }
+
+    def _send_notification(self, profile):
+        """Sends a notificaiton when an offer is created"""
+        settings = self.settings_repo.find_one_by_id(profile.id)
+        print(settings)
+        if settings.off_noti:
+            noti = Notification('You have an offer!', profile.device_id, 1)
+            self.noti_service.send_notification(noti)

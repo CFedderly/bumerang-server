@@ -103,7 +103,7 @@ class BorrowRequestRepo:
                 %(title)s, %(user_id)s, %(description)s,
                 %(distance)s, %(duration)s, %(request_type)s
             )
-            RETURNING ID, TITLE
+            RETURNING ID, USER_ID
         """.format(table=self._table), borrow_node
         )
 
