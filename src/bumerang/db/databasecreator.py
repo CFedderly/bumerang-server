@@ -61,7 +61,7 @@ class DatabaseCreator:
             CREATE TABLE IF NOT EXISTS br_offer(
                 ID SERIAL PRIMARY KEY,
                 PROFILE_ID INT REFERENCES br_profile NOT NULL,
-                BORROW_ID INT NOT NULL REFERENCES br_request ON DELETE CASCADE
+                BORROW_ID INT NOT NULL REFERENCES br_request ON DELETE CASCADE,
                 UNIQUE (PROFILE_ID, BORROW_ID)
             )
         """)

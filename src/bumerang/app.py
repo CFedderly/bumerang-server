@@ -47,7 +47,7 @@ class BumerangApplication(Application):
             (r'/profile/([0-9]+)/?', ProfileHandler),
             (r'/profile/edit/([0-9]+)/?', ProfileEditHandler),
             (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
-            (r'/profile/karma/add/([0-9]+)/?', ProfileKarmaHandler),
+            (r'/profile/karma/edit/([0-9]+)/?', ProfileKarmaHandler),
             (r'/request/?', BorrowHandler),
             (r'/request/([0-9]+)/?', BorrowHandler),
             (r'/requests/recent/?', BorrowsByRecentHandler),
