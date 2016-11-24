@@ -27,6 +27,29 @@ class OfferRepo:
         else:
             return None
 
+    def find_offers_by_user_id(self, profile_id):
+        """ Finds the offers from the user with the given user id
+
+        :profile_id type: int
+        :profile_id: The user id of desired user
+
+        :rtype: list of Offers
+        :return: A list of offers with the desired user id, or None if none found
+        """
+        query = DatabaseQuery(self._db)
+        records = query.select("""
+            SELECT o0_.id, o0_.profile_id, o0_.borrow_id
+            FROM {table} o0_
+            WHERE o0_.profile_id = %(profile_id)s
+        """.format(table=self._table), {'profile_id': profile_id}
+        )
+
+        if records:
+            hydrators = [Hydrator(x) for x in records]
+            return [x.to_request() for x in hydrators]
+        else:
+            return None
+
     def find_offers_by_borrow_id(self, borrow_id):
         """ Finds the offers with the given borrow id
 
