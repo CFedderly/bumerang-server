@@ -1,4 +1,5 @@
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 from bumerang.error import BumerangError
 from json import dumps
 
@@ -8,6 +9,7 @@ class BorrowsByUserHandler(BumerangRequestHandler):
         that created the request
     """
 
+    @max_age_cache(60)
     def get(self, user_id):
         """Obtain a list of requests created by a given user."""
 

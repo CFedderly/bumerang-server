@@ -1,10 +1,12 @@
 from bumerang.error import BumerangError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 
 class ProfileByFacebookHandler(BumerangRequestHandler):
     """ This class fetches a profile given a facebook id
     """
 
+    @max_age_cache(60)
     def get(self, facebook_id):
         """Obtain a profile by facebook id.
         """

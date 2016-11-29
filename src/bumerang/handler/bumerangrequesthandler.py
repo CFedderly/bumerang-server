@@ -1,7 +1,27 @@
 from bumerang.error import InvalidArgumentError
+
+from functools import wraps
 from tornado.web import RequestHandler
 from tornado.escape import json_decode
 
+
+def max_age_cache(amount=60):
+    """A decorator to help caching easily
+
+    :amount type: int
+    :amount: The amount of time in seconds to cache the response
+
+    :rtype: function
+    :return: The wrapped function
+    """
+    def decorator(f):
+        @wraps(f)
+        def wrapper(self, *args, **kwargs):
+            self.set_header('Cache-Contol', 'max-age={}'.format(amount))
+            return f(self, *args, **kwargs)
+
+        return wrapper
+    return decorator
 
 class BumerangRequestHandler(RequestHandler):
 

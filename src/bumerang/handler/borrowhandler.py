@@ -1,6 +1,7 @@
 from bumerang.error import BumerangError
 from bumerang.error import InvalidRequestTypeError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 from bumerang.notification.notification import Notification
 
 
@@ -11,6 +12,7 @@ class BorrowHandler(BumerangRequestHandler):
     BORROW = 0
     LEND = 1
 
+    @max_age_cache(60)
     def get(self, id=None):
         """Obtain a request by id."""
         try:

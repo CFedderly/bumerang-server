@@ -1,10 +1,12 @@
 from bumerang.error import BumerangError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 from bumerang.notification.notification import Notification
 
 
 class OfferHandler(BumerangRequestHandler):
 
+    @max_age_cache(60)
     def get(self, id):
         try:
             offer = self.offer_repo.find_one_by_id(id)

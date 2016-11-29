@@ -1,11 +1,13 @@
 from bumerang.error import BumerangError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 from bumerang.notification.notification import Notification
 from json import dumps
 
 
 class OfferByIdHandler(BumerangRequestHandler):
 
+    @max_age_cache(60)
     def get(self, *ids):
         try:
             borrow_ids = [int(x) for x in ids[0].split(',')]
