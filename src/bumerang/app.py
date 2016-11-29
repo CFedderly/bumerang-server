@@ -2,6 +2,7 @@ from bumerang.db.borrowrequestrepo import BorrowRequestRepo
 from bumerang.db.databasecreator import DatabaseCreator
 from bumerang.db.offerrepo import OfferRepo
 from bumerang.db.profilerepo import ProfileRepo
+from bumerang.db.settingsrepo import SettingsRepo
 from bumerang.handler.borrowsbyrecenthandler import BorrowsByRecentHandler
 from bumerang.handler.borrowsbyuserhandler import BorrowsByUserHandler
 from bumerang.handler.borrowhandler import BorrowHandler
@@ -13,6 +14,7 @@ from bumerang.handler.offerhandler import OfferHandler
 from bumerang.handler.profilebyfacebookhandler import ProfileByFacebookHandler
 from bumerang.handler.profileedithandler import ProfileEditHandler
 from bumerang.handler.profilehandler import ProfileHandler
+from bumerang.handler.settingshandler import SettingsHandler
 from bumerang.notification.notificationservice import NotificationService
 
 from os import environ
@@ -50,6 +52,7 @@ class BumerangApplication(Application):
             (r'/profile/edit/([0-9]+)/?', ProfileEditHandler),
             (r'/profile/facebookid/([0-9]+)/?', ProfileByFacebookHandler),
             (r'/profile/karma/edit/([0-9]+)/?', ProfileKarmaHandler),
+            (r'/profile/settings/([0-9]+)/?', SettingsHandler),
             (r'/request/?', BorrowHandler),
             (r'/request/([0-9]+)/?', BorrowHandler),
             (r'/requests/recent/?', BorrowsByRecentHandler),
@@ -90,6 +93,7 @@ class BumerangApplication(Application):
         self.borrow_repo = BorrowRequestRepo(db, 'br_request')
         self.offer_repo = OfferRepo(db, 'br_offer')
         self.profile_repo = ProfileRepo(db, 'br_profile')
+        self.settings_repo = SettingsRepo(db, 'br_settings')
 
     def register_services(self):
         """Register our serices for the application"""

@@ -3,6 +3,22 @@ class BumerangError(Exception):
     pass
 
 
+class InvalidArgumentError(BumerangError):
+
+    def __init__(self, name):
+        super().__init__()
+        self._name = name
+
+    def __repr__(self):
+        return 'InvalidArgumentError' % self._name
+
+    def __str__(self):
+        return (
+            'Invalid Argument Error: Argument {name} was required'
+            ' but was not provided'
+        ).format(name=self._name)
+
+
 class InvalidIDConstraintError(BumerangError):
 
     def __init__(self, id):
@@ -15,8 +31,8 @@ class InvalidIDConstraintError(BumerangError):
     def __str__(self):
         return (
             'Invalid ID Constraint Error: More than one record with the id'
-            ' {id}'.format(id=self._id)
-        )
+            ' {id}'
+        ).format(id=self._id)
 
 
 class InvalidOperationError(BumerangError):

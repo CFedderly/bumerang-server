@@ -8,8 +8,8 @@ class BorrowHandler(BumerangRequestHandler):
     """This class is here to handle any requests made by the user in attempt to
        borrow an item or something else that may be time sensitive.
     """
-    Borrow = 0
-    Lend = 1
+    BORROW = 0
+    LEND = 1
 
     def get(self, id=None):
         """Obtain a request by id."""
@@ -30,7 +30,9 @@ class BorrowHandler(BumerangRequestHandler):
         """Handle creating new requests and updating requests."""
         try:
             request = self._create_borrow_node()
-            br_id, _ = self.borrow_repo.insert_one(request)
+            #TODO Stop being lazy and return whole node
+            br_id, user_id = self.borrow_repo.insert_one(request)
+            self._send_notification(user_id)
             self.write({'id': br_id})
         except BumerangError as e:
             self.set_status(500)
@@ -77,7 +79,7 @@ class BorrowHandler(BumerangRequestHandler):
         """
 
         request_type = int(self.request.arguments['request_type'])
-        if request_type not in [BorrowHandler.Borrow, BorrowHandler.Lend]:
+        if request_type not in [BorrowHandler.BORROW, BorrowHandler.LEND]:
             raise InvalidRequestTypeError(request_type)
         return {
             'title': self.get_arg('title', required=True),
@@ -87,3 +89,10 @@ class BorrowHandler(BumerangRequestHandler):
             'duration': self.get_arg('duration', required=True),
             'request_type': request_type
         }
+
+    def _send_notification(self, user_id):
+        """Send a request to the user if the setting for it is set"""
+        settings = self.settings_repo.find_one_by_id(user_id)
+        if settings.req_noti:
+            noti = Notification('New Request', '/topics/request', self.BORROW)
+            self.noti_service.send_notification(noti)

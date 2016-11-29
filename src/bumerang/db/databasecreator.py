@@ -16,11 +16,21 @@ class DatabaseCreator:
         self.create_database()
 
     def create_database(self):
-        """Create all database schemas."""
+        """Create the database
+
+           Creates the database by first creating tables, the functions to be
+           used by triggers, and then all triggers on the tables
+        """
+        self._create_tables()
+        self._create_functions()
+        self._create_triggers()
+
+    def _create_tables(self):
+        """Create all table schemas"""
         self._create_profile_table()
+        self._create_settings_table()
         self._create_requests_table()
         self._create_offers_table()
-        self._create_tags_table()
 
     def _create_profile_table(self):
         """Create the table for the user profiles object"""
@@ -35,6 +45,17 @@ class DatabaseCreator:
                 DESCRIPTION TEXT,
                 PHONE_NUMBER VARCHAR (12) NOT NULL,
                 KARMA INT DEFAULT 0
+            )
+        """)
+
+    def _create_settings_table(self):
+        """Create the table to store user settings"""
+        query = DatabaseQuery(self._db)
+        query.create_table("""
+            CREATE TABLE IF NOT EXISTS br_settings(
+                PROFILE_ID INT PRIMARY KEY REFERENCES br_profile(id),
+                REQUEST_NOTIFICATION BOOLEAN DEFAULT 'false',
+                OFFER_NOTIFICATION BOOLEAN DEFAULT 'true'
             )
         """)
 
@@ -66,6 +87,39 @@ class DatabaseCreator:
             )
         """)
 
-    def _create_tags_table(self):
-        """Create the table to hold all the tags"""
-        pass
+    def _create_functions(self):
+        """Create the functions for the triggers to use"""
+        self._create_settings_record_function()
+
+    def _create_settings_record_function(self):
+        """Have the function to insert new records into the db"""
+        query = DatabaseQuery(self._db)
+        query.create_function("""
+            CREATE OR REPLACE FUNCTION settingsfunction()
+            RETURNS TRIGGER AS $insert_settings_record$
+                BEGIN
+                    INSERT INTO br_settings (PROFILE_ID)
+                    VALUES (new.id);
+                    RETURN NEW;
+                END;
+            $insert_settings_record$ LANGUAGE plpgsql
+        """)
+
+    def _create_triggers(self):
+        """Create the database triggers"""
+        self._create_settings_record_trigger()
+
+    def _create_settings_record_trigger(self):
+        """On the creation of a profile account, create a settings record
+
+           using the profile id.
+        """
+        query = DatabaseQuery(self._db)
+        query.drop_trigger("""
+            DROP TRIGGER IF EXISTS insert_settings_record on br_profile
+        """)
+        query.create_trigger("""
+            CREATE TRIGGER insert_settings_record
+            AFTER INSERT ON br_profile
+            FOR EACH ROW EXECUTE PROCEDURE settingsfunction()
+        """)

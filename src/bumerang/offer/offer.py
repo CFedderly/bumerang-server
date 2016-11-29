@@ -27,7 +27,7 @@ class Offer:
             }
         }
 
-    def fetch_device_id(self, profile_repo, borrow_repo):
+    def fetch_profile(self, profile_repo, borrow_repo):
         request = borrow_repo.find_one_by_id(self.borrow_id)
         profile = profile_repo.find_one_by_id(request.user_id)
-        return profile.device_id
+        return profile
