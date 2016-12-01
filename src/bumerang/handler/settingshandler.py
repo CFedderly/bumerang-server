@@ -45,11 +45,11 @@ class SettingsHandler(BumerangRequestHandler):
 
     def _create_settings_edit_node(self):
         """Create the settings node to store in the db"""
-        return {
-            'request_notification': self.get_arg(
-                'request_notification', required=False
-            ),
-            'offer_notification': self.get_arg(
-                'offer_notification', required=False
-            )
-        }
+        edit_node = {}
+        new_request_setting = self.get_arg('request_notification', required=False)
+        if new_request_setting:
+            edit_node['request_notification'] = new_request_setting
+        new_offer_setting = self.get_arg('offer_notification', required=False)
+        if new_offer_setting:
+            edit_node['offer_notification'] = new_offer_setting
+        return edit_node

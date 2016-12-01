@@ -40,8 +40,15 @@ class ProfileEditHandler(BumerangRequestHandler):
         :rtype: dict
         :return: A node of attributes and the values they represent
         """
-        return {
-            'device_id': self.get_arg('device_id', required=False),
-            'description': self.get_arg('description', required=False),
-            'phone_number': self.get_arg('phone_number', required=False)
-        }
+        edit_node = {}
+        new_device_id = self.get_arg('device_id', required=False)
+        if new_device_id:
+            edit_node['device_id'] = new_device_id
+        new_description = self.get_arg('description', required=False)
+        if new_description:
+            edit_node['description'] = new_description
+        new_phone_number = self.get_arg('phone_number', required=False)
+        if new_phone_number:
+            edit_node['phone_number'] = new_phone_number
+
+        return edit_node
