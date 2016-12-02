@@ -42,13 +42,13 @@ class ProfileEditHandler(BumerangRequestHandler):
         """
         edit_node = {}
         new_device_id = self.get_arg('device_id', required=False)
-        if new_device_id:
+        if new_device_id is not None:
             edit_node['device_id'] = new_device_id
         new_description = self.get_arg('description', required=False)
-        if new_description:
+        if new_description is not None:
             edit_node['description'] = new_description
         new_phone_number = self.get_arg('phone_number', required=False)
-        if new_phone_number:
+        if new_phone_number is not None:
             edit_node['phone_number'] = new_phone_number
 
         return edit_node

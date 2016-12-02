@@ -47,9 +47,9 @@ class SettingsHandler(BumerangRequestHandler):
         """Create the settings node to store in the db"""
         edit_node = {}
         new_request_setting = self.get_arg('request_notification', required=False)
-        if new_request_setting:
+        if new_request_setting is not None:
             edit_node['request_notification'] = new_request_setting
         new_offer_setting = self.get_arg('offer_notification', required=False)
-        if new_offer_setting:
+        if new_offer_setting is not None:
             edit_node['offer_notification'] = new_offer_setting
         return edit_node
