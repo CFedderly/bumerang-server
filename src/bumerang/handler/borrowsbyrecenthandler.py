@@ -1,5 +1,6 @@
 from bumerang.error import BumerangError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 from json import dumps
 
 
@@ -8,6 +9,7 @@ class BorrowsByRecentHandler(BumerangRequestHandler):
         on which are most recently created.
     """
 
+    @max_age_cache(60)
     def get(self, num_requests=10):
         """Obtain a list of requests."""
 

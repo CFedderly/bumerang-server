@@ -1,11 +1,13 @@
 from bumerang.error import BumerangError
 from bumerang.handler.bumerangrequesthandler import BumerangRequestHandler
+from bumerang.handler.bumerangrequesthandler import max_age_cache
 from bumerang.notification.notification import Notification
 from json import dumps
 
 
 class OfferByUserHandler(BumerangRequestHandler):
 
+    @max_age_cache(60)
     def get(self, user_id):
         try:
             offers = self.offer_repo.find_offers_by_user_id(user_id)
